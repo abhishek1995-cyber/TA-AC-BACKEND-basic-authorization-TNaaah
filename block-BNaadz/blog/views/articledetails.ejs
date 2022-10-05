@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-pink-600">
+        <nav class="flex justify-between max-w-6xl mr-auto ml-auto py-12 ">
+            <ul>
+                <li>
+                    <a href="/">
+                        <button class="bg-green-300 border border-solid border-yellow-300 px-2">Home</button>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Articles Details
+                </li>
+            </ul>
+           <% if(user){ %>
+                <ul>
+                    
+                    <li>
+                        <a href=""><%= user.firstname %></a>
+                        <a class="ml-4" href="/articles/form">
+                            <button class="bg-green-300 border border-solid border-yellow-300 px-2">Add Articles</button>
+                        </a>
+                        <a class="ml-4" href="/users/logout">
+                            <button class="bg-green-300 border border-solid border-yellow-300 px-2">Logout</button>
+                        </a>
+                    </li>
+                </ul>
+          <%  } else { %>
+            <ul>
+                <li>
+                    <a href="/users/login">
+                        <button class="bg-green-300 border border-solid border-yellow-300 px-2">Login</button>
+                    </a>
+                    <a class="ml-4" href="/users/register">
+                        <button class="bg-green-300 border border-solid border-yellow-300 px-2">Register</button>
+                    </a>
+                </li>
+            </ul>
+            <%  } %>
+        </nav>
+    </header>
+    <main>
+        <h2><%= article.title %></h2>
+        <h4><%= article.author.firstname %></h4>
+        <h3><%= article.description %></h3>
+        <h5><%= article.likes ? article.likes: 0 %></h5>
+        <a href="/articles/<%=article.slug %>/likes">
+            <button>Likes</button>
+        </a>
+        <a href="/articles/<%= article.slug %>/edit">
+            <button>Edit</button>
+        </a>
+        <a href="/articles/<%= article.slug %>/delete">
+            <button>Delete</button>
+        </a>
+        <div>
+        <form action="/articles/<%= article.slug %>/comments" method="post">
+            <textarea name="content" cols="30" rows="10">
+            </textarea>
+            <input type="submit" placeholder="comment">
+        </form>
+    </div>
+    <div>
+        <% article.comments.forEach(comment=>{ %>
+            <div>
+                <p><%= comment.content %></p>
+            </div>
+            <a href="/comments/<%= comment._id %>/edit">
+                <button>Edit</button>
+            </a>
+            <a href="/comments/<%= comment._id %>/delete">
+                <button>Delete</button>
+            </a>
+       <% }) %>
+    </div>
+    </main>
+</body>
+</html>
